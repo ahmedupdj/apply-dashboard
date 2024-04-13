@@ -1,0 +1,34 @@
+<%- include('./head') %>
+<section class="home_top">
+    <div class="home_logo">
+        <img src="https://cdn.discordapp.com/avatars/913670780548689940/4c0777f1058c8fcaaf80c9752ced0ec3.webp?size=4096" alt="">
+    </div>
+    <div class="home_text">
+        <h1>مستقبل بوت </h1>
+        <p>هو بوت يوفر لك أبسط طريقة لعمل نموذج تقديم في سيرفرك، نموذجك بسيط جدًا</p>
+    </div>
+    <div class="home_button">
+        <a href="/invite">أضفني!</a>
+        <% if(user) { %>
+            <a href="/dashboard"  onclick="loadPage(event, '/dashboard')" class="dashboard">لوحة التحكم</a>
+        <% } else { %>
+            <a href="/login">تسجيل الدخول</a>
+        <% } %>   
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature">
+        <div class="feature_left">
+            <img src="https://cdn.discordapp.com/attachments/1227300748635799674/1228793317043601408/image.png?ex=662d55f4&is=661ae0f4&hm=e6fd77758c1b8f3f24938b0be44f9bf11fb392ea853b484c59d0676b9c941dc3&" alt="" width="200px" height="200px">
+        </div>
+        <div class="feature_right">
+            <h2>من أفضل أنظمة التقديم</h2>
+            <p>يعطيك عددًا لا نهائيًا من الأسئلة ومميزات أخرى مدفوعة، البوت يقدمها مجانًا</p>
+        </div>
+    </div>
+</section>
+
+<br><br><br><br><br><br><br><br><br>
+<%- include('./foot') %>
+

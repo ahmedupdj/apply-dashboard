@@ -1,0 +1,107 @@
+<%- include('../head') %>
+<div class="page">
+    <header>
+        <h4>تحكم في التقديم</h4>
+    </header>
+    <div class="page_submuit">
+        <form id="autoReplayForm">
+            <div>
+                <label for="question">السؤال:</label>
+                <textarea id="question" name="question" required></textarea>
+            </div>
+            <button type="button" onclick="addAutoReplay()">اضافة السؤال</button>
+        </form>
+    </div>
+    <div id="questionsList">
+        <% serverSettings.forEach(setting => { %>
+            <div class="question" id="question_<%= setting._id %>">
+                <p style="color: #fff;"><%= setting.question %></p>
+                <div style="text-align: center;">
+                    <button class="button_delete" onclick="deleteAutoReplay('<%= setting._id %>')">
+                        <span class="button__text">حذف</span>
+                    </button>                                        
+                    <button class="button_edit" onclick="editAutoReplay('<%= setting._id %>', '<%= setting.question %>')">
+                        <span class="button__text">تعديل</span>
+                    </button>                                        
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
+<script>
+function addAutoReplay() {
+    const question = document.getElementById('question').value;
+    const questionsCount = document.querySelectorAll('.question').length;
+
+    if (questionsCount >= 20) {
+        iziToast.error({
+            title: 'خطأ',
+            message: 'لقد وصلت إلى الحد الأقصى لعدد الأسئلة المسموح بها (20).',
+            position: 'topRight'
+        });
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST', '/server/<%= guildId %>/AutoReplay', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.send(JSON.stringify({ question }));
+
+    xhr.onload = function () {
+        if (xhr.status == 200) {
+            iziToast.success({
+                title: 'ناجح',
+                message: 'تم اضافه السؤال بنجاح!',
+                position: 'topRight'
+            });
+
+            window.location.reload();
+        } else {
+            iziToast.error({
+                title: 'خطأ',
+                message: 'لم يتم اضافه السؤال يرجي المحاوله مره اخري.',
+                position: 'topRight'
+            });
+        }
+    };
+}
+
+
+function deleteAutoReplay(questionId) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST', '/server/<%= guildId %>/AutoReplay/delete', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.send(JSON.stringify({ questionId }));
+
+    xhr.onload = function () {
+        if (xhr.status == 200) {
+            iziToast.success({
+                title: 'ناجح',
+                message: 'تم اضافه السؤال بنجاح!',
+                position: 'topRight'
+            });
+            const deletedQuestion = document.getElementById(`question_${questionId}`);
+            deletedQuestion.parentNode.removeChild(deletedQuestion);
+        } else {
+            iziToast.error({
+                title: 'خطأ',
+                message: 'لم يتم اضافه السؤال يرجي المحاوله مره اخري.',
+                position: 'topRight'
+            });
+        }
+    };
+}
+
+
+
+
+
+
+</script>

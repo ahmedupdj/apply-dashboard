@@ -1,0 +1,44 @@
+<%- include('./mete') %>
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header class="home_header">
+        <a href="/" onclick="loadPage(event, '/')">
+            <div class="header_left">
+ 
+                <img src="https://cdn.discordapp.com/avatars/913670780548689940/4c0777f1058c8fcaaf80c9752ced0ec3.webp?size=4096" alt="لوغو الموقع" class="logo">
+                <h3 class="logo_h3">مستقبل بوت</h3>
+    
+        </div>
+        </a>
+        <div class="buttons_header">
+            <a href="/" onclick="loadPage(event, '/')">الرئيسية</a>
+            <a href="/term-of-use" onclick="loadPage(event, '/term-of-use')">شروط الاستخدام</a>
+            <% if(user) { %>
+
+                <button class="logout" onclick="window.location.href='/logout'">تسجيل الخروج</button>
+            <% } else { %>
+                <button class="login" onclick="window.location.href='/login'">تسجيل الدخول</button>
+            <% } %>    
+        </div>
+    </header>
+</body>
+</html>
+
+<script>
+    function loadPage(event, path) {
+    event.preventDefault(); 
+    fetch(path)
+        .then(response => response.text())
+        .then(html => {
+            document.body.innerHTML = html;
+            window.history.pushState(null, '', path); 
+        })
+        .catch(error => console.log(error));
+}
+</script>

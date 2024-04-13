@@ -1,0 +1,95 @@
+<%- include('../head') %>
+
+<body>
+    <br><br>
+    <center>
+        <h2 style="color: #fff;">Choose your server</h2>
+    </center>
+    <div class="page">
+        <div class="servers">
+            <% 
+                const sortedGuilds = guilds.sort((a, b) => {
+                    const botInA = bot.guilds.cache.get(a.id) ? -1 : 1;
+                    const botInB = bot.guilds.cache.get(b.id) ? -1 : 1;
+                    return botInA - botInB;
+                });
+
+                sortedGuilds.forEach((guild, index) => { %>
+                    <div class="server">
+                        <div class="icon-and-name">
+                            <% if (guild.icon) { %>
+                                <img src="https://cdn.discordapp.com/icons/<%= guild.id %>/<%= guild.icon %>.png?size=512" alt="<%= guild.name %> Icon" class="server-icon">
+                            <% } else { %>
+                                <img src="https://cdn.glitch.com/82fe990a-7942-42e3-9790-39807ccdb9f6%2Ficon-404-dark.png?v=1602427904949" alt="<%= guild.name %> Icon" class="server-icon">
+                            <% } %>
+                            <p class="guild-name"><%= guild.name %></p>
+                        </div>
+
+                        <% if (bot.guilds.cache.get(guild.id)) { %>
+                            <br>
+                            <a href="/server/<%= guild.id %>" class="button1 edit" onclick="loadPage(event, '/server/<%= guild.id %>/AutoReplay')">تحكم</a>
+                        <% } else { %>
+                            <p class="guild-name" style="color: rgb(255, 52, 52);">البوت غير موجود في السيرفر</p>
+                            <a href="<%= `https://discordapp.com/oauth2/authorize?client_id=913670780548689940&scope=bot&guild_id=${guild.id}&response_type=code&scope=bot&permissions=703687441776558` %>" class="button1 add">اضافه البوت</a>
+                        <% } %>
+                    </div>
+                <% }); %>
+        </div>
+    </div>
+</body>
+<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br>
+
+
+<style>
+    .servers {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; 
+        color: #fff;
+    }
+
+    .server {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 200px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .server:hover {
+        transform: scale(1.05);
+    }
+
+    .server-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin: 0 auto;
+    }
+
+    .button1 {
+        display: block;
+        margin: 10px auto;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #fff;
+        background-color: #007bff;
+        transition: background-color 0.3s ease;
+    }
+
+    .button1:hover {
+        background-color: #0056b3;
+        color: #fff;
+    }
+</style>
+
+
+
+<%- include('../foot') %>
